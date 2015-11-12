@@ -1,5 +1,9 @@
 from django.shortcuts import render
 from django.contrib.auth import authenticate, login
+from django.views.decorators.csrf import ensure_csrf_cookie
+from django.http import JsonResponse
+from django.core.context_processors import csrf
+
 
 
 def loginsession(request):
@@ -52,3 +56,10 @@ def renewsession(request):
     else:
         pass
          # Return an 'invalid login' error message.
+
+
+@ensure_csrf_cookie
+def crsf_cookie(request):
+    csrftoken = csrf(request)['csrf_token']
+    print(csrftoken)
+    return JsonResponse({'csrf_token': csrftoken})
