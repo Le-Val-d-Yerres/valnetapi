@@ -60,6 +60,8 @@ def renewsession(request):
 
 @ensure_csrf_cookie
 def crsf_cookie(request):
-    csrftoken = csrf(request)['csrf_token']
-    print(csrftoken)
+    csrftoken = csrf(request)['csrf_token'] + ""
     return JsonResponse({'csrf_token': csrftoken})
+
+
+
