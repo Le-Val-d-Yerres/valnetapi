@@ -5,6 +5,7 @@ from django.http import JsonResponse
 from django.core.context_processors import csrf
 
 
+from account.models import Message
 
 def loginsession(request):
     username = request.POST['useremail']
@@ -13,7 +14,11 @@ def loginsession(request):
     if user is not None:
         if user.is_active:
             login(request, user)
-            # Redirect to a success page.
+            message = Message()
+            message.status = "ok"
+            message.to = "dashboard"
+            message.message = "redirection vers le tableau de bord"
+
             pass
         else:
             # Return a 'disabled account' error message
