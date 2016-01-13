@@ -1,3 +1,8 @@
+from rest_framework.views import APIView
+from rest_framework.response import Response
+from rest_framework.permissions import AllowAny, IsAuthenticated
+
+
 from django.shortcuts import render
 from django.contrib.auth import authenticate, login
 from django.views.decorators.csrf import ensure_csrf_cookie
@@ -28,6 +33,11 @@ def loginsession(request):
          # Return an 'invalid login' error message.
 
     print('pouet')
+
+class login(APIView):
+    permission_classes = (AllowAny,)
+
+    pass
 
 def logoutsession(request):
     username = request.POST['username']
