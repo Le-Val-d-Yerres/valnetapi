@@ -34,10 +34,24 @@ def loginsession(request):
 
     print('pouet')
 
-class login(APIView):
+
+class LoginView(APIView):
     permission_classes = (AllowAny,)
 
-    pass
+    def list(self, request, *args, **kwargs):
+        message = Message()
+        message.status = "ok"
+        message.to = "dashboard"
+        message.message = "redirection vers le tableau de bord"
+        return Response(message)
+
+    def post(self, request):
+
+        return Response("pouet")
+
+    def get(self, request):
+        return Response("pouet")
+
 
 def logoutsession(request):
     username = request.POST['username']

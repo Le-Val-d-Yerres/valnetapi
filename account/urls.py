@@ -5,5 +5,6 @@ urlpatterns = [
     url(r'^login/', 'account.views.loginsession'),
     url(r'^logout/', 'account.views.logoutsession'),
     url(r'^renew/', 'account.views.renewssession'),
-    url(r'^crsf_cookie/', 'account.views.crsf_cookie')
+    url(r'^crsf_cookie/', 'account.views.crsf_cookie'),
+    url(r'^loginview/', 'account.views.LoginView'),
 ]
