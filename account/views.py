@@ -35,7 +35,7 @@ def loginsession(request):
     print('pouet')
 
 
-class LoginView(APIView):
+class LoginViewAccount(APIView):
     permission_classes = (AllowAny,)
 
     def list(self, request, *args, **kwargs):
