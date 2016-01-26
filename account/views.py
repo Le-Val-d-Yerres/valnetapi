@@ -1,16 +1,19 @@
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework.permissions import AllowAny, IsAuthenticated
+from rest_framework.response import Response
+from rest_framework import status
 
 
 from django.shortcuts import render
-from django.contrib.auth import authenticate, login
+from django.contrib.auth import authenticate, login, logout
 from django.views.decorators.csrf import ensure_csrf_cookie
 from django.http import JsonResponse
 from django.core.context_processors import csrf
 
 
 from account.models import Message
+
 
 def loginsession(request):
     username = request.POST['useremail']
@@ -22,69 +25,24 @@ def loginsession(request):
             message = Message()
             message.status = "ok"
             message.to = "dashboard"
-            message.message = "redirection vers le tableau de bord"
-
-            pass
+            message.msg = "Authentification réussie. Redirection vers le tableau de bord."
+            return JsonResponse(message.getdict())
         else:
-            # Return a 'disabled account' error message
-            pass
+            message = Message()
+            message.status = "error"
+            message.to = "login"
+            message.msg = "Ce compte est inactif contacter l'administrateur"
+            return JsonResponse(message.getdict())
     else:
-        pass
-         # Return an 'invalid login' error message.
-
-    print('pouet')
-
-
-class LoginViewAccount(APIView):
-    permission_classes = (AllowAny,)
-
-    def list(self, request, *args, **kwargs):
         message = Message()
-        message.status = "ok"
-        message.to = "dashboard"
-        message.message = "redirection vers le tableau de bord"
-        return Response(message)
-
-    def post(self, request):
-
-        return Response("pouet")
-
-    def get(self, request):
-        return Response("pouet")
+        message.status = "error"
+        message.to = "login"
+        message.msg = "Soit ce compte n'existe pas soit le mot de passe n'est pas le bon."
+        return JsonResponse(message.getdict())
 
 
 def logoutsession(request):
-    username = request.POST['username']
-    password = request.POST['password']
-    user = authenticate(username=username, password=password)
-    if user is not None:
-        if user.is_active:
-            login(request, user)
-            # Redirect to a success page.
-            pass
-        else:
-            # Return a 'disabled account' error message
-            pass
-    else:
-        pass
-         # Return an 'invalid login' error message.
-
-
-def renewsession(request):
-    username = request.POST['username']
-    password = request.POST['password']
-    user = authenticate(username=username, password=password)
-    if user is not None:
-        if user.is_active:
-            login(request, user)
-            # Redirect to a success page.
-            pass
-        else:
-            # Return a 'disabled account' error message
-            pass
-    else:
-        pass
-         # Return an 'invalid login' error message.
+    logout(request)
 
 
 @ensure_csrf_cookie
